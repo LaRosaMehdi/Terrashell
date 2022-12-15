@@ -97,30 +97,20 @@ char **ft_split (char *str)
     int j = 0;
     char **tab = malloc(sizeof(char *) * ft_strlen(str));
 
-    while (str[i])
+    while (str[i] != '\0')
     {
         if (str[i] == 34)
         {
             while (str[i] != 34)
                 i++;
-            tab[j] = ft_strsub(str, 0, i);
-            str = str + i + 1;
-            i = 0;
-            j++;
-        }
-        if (str[i] == 39)
-        {
-            while (str[i] != 39)
-                i++;
-            tab[j] = ft_strsub(str, 0, i);
-            str = str + i + 1;
+            tab[j] = ft_strsub(str, 0, i + 1);
+            str = str + i;
             i = 0;
             j++;
         }
         i++;
     }
-    tab[j] = ft_strsub(str, 0, i);
-    tab[j + 1] = NULL;
+    //tab[j] = ft_strsub(str, 0, i);
     return (tab);
 }
 

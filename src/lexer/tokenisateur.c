@@ -11,57 +11,52 @@
 
 //the list should be freed by the caller
 
-t_token *init_type(int token, char *value)
+t_token *init_type(int type, char *value)
 {
-    t_token *type;
+    t_token *token;
 
-    type = malloc(sizeof(t_token));
-    if (!type)
+    token = malloc(sizeof(t_token) * 3);
+    if (!token)
     {
         printf("malloc error\n");
-        exit(-84);
+        exit(-127);
     }
-    type->value = value;
-    type->t_type = token;
-
-    return (type);
+    token->t_type = type;
+    token->value = value;
+    printf("token->t_type = %d\n", token->t_type);
+    return (token);
 }
 
 t_token *tokenizateur(t_list *list)
 {
-    while(list)
+    while(list != NULL && list->content != '\0')
     {
-        if (ft_strcmp(list->content, "|") == 0)
+        if (ft_strchr(list->content, '|'))
         {
-            printf("pipe\n");
-            return (init_type(PIPE, list->content));
+            printf("PIPE\n");
+            init_type(PIPE, list->content);
         }
-        else if (ft_strcmp(list->content, ">") == 0)
+        else if (ft_strchr(list->content, '>'))
         {
-            printf("redir\n");
-            return (init_type(REDIR, list->content));
+            printf("REDIR\n");
+            init_type(REDIR, list->content);
         }
-        else if (ft_strcmp(list->content, "<") == 0)
+        else if (ft_strchr(list->content, '<'))
         {
-            printf("rredir\n");
-            return (init_type(REDIR, list->content));
+            printf("REDIR\n");
+            init_type(REDIR, list->content);
         }
-        else if (ft_strcmp(list->content, " ") == 0)
+        else if (ft_strchr(list->content, '"'))
         {
-            printf("quote\n");
-            return (init_type(QUOTE, list->content));
-        }
-        else if (ft_strcmp(list->content, ";") == 0)
-        {
-            printf("point virgule\n");
-            return (init_type(END, list->content));
+            printf("QUOTE\n");
+            init_type(QUOTE, list->content);
         }
         else
         {
-            printf("word\n");
-            printf("content: %s\n", list->content);
-            return (init_type(WORD, list->content));
+            printf("WORD\n");
+            init_type(WORD, list->content);
         }
+        list = list->next;
     }
     return (NULL);
 }

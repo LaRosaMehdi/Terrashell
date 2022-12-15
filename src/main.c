@@ -49,7 +49,7 @@ t_list *lexer(t_list *str)
     afflist(list, "Lexer");
     printf("je vois avant tokenizateur\n");
     tokenizateur(list);
-    printf("sortie\n");
+    //printf("sortie\n");
     return (list);
 }
 
